@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "identifier": "com.yashpal.productive-desktop-app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173"
+  },
+  "app": {
+    "security": {
+      "csp": null,
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "$PICTURE/**",
+          "$DESKTOP/**",
+          "$DOWNLOAD/**"
+        ]
+      }
+    },
+    "windows": [
+      {
+        "title": "Productive Desktop App",
+        "width": 1024,
+        "height": 768,
+        "resizable": true
+      }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "msi", "deb", "appimage"]
+  }
+}
