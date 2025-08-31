@@ -1,0 +1,12 @@
+[package]
+name = "productive_desktop_app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tauri = { version = "2.7.0", features = ["tray-icon"] }
+tauri-plugin-dialog = "2.0.0-beta.7"
+# tauri-plugin-wallpaper = { git = "https://github.com/tauri-apps/tauri-plugin-wallpaper.git", branch = "main" }
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }

@@ -1,0 +1,433 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #ffb86b;
+  --wallpaper: url("https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --text-color: #ffffff;
+  --panel-border-width: 0.30rem;
+  --panel-border-color: rgb(0, 255, 42);
+  --panel-shadow-color: rgba(0, 0, 0, 0.35);
+  --panel-shadow: 0 0.375rem 1.125rem var(--panel-shadow-color);
+}
+
+
+/* left (top priorties) panel */
+.left{
+  --text-color: #ffffff;
+  --panel-border-width: 0.25rem;
+  --panel-border-color: rgb(0, 255, 42);
+  --panel-shadow-color: rgba(0, 0, 0, 0.35);
+  --panel-shadow: 0 0.375rem 1.125rem var(--panel-shadow-color);
+}
+
+
+/* center (quote) panel */
+.center{
+  --text-color: #ffffff; /* Changed to white for better contrast */
+  --panel-border-width: 0.25rem;
+  --panel-border-color: rgb(0, 255, 42);
+  --panel-shadow-color: rgba(0, 0, 0, 0.35);
+  --panel-shadow: 0 0.375rem 1.125rem var(--panel-shadow-color);
+}
+
+/* right (to-do) panel */
+.right{
+  --text-color: #ffffff; /* Changed to white for better contrast */
+  --panel-border-width: 0.25rem;
+  --panel-border-color: rgb(0, 255, 42);
+  --panel-shadow-color: rgba(0, 0, 0, 0.35);
+  --panel-shadow: 0 0.375rem 1.125rem var(--panel-shadow-color);
+}
+
+
+* { box-sizing: border-box; }
+html,body,#app { height: 100%; margin: 0; font-family: Inter, system-ui, Arial; color: var(--text-color); }
+.wallpaper-container {
+  height:100%;
+  width:100%;
+  background-image: var(--wallpaper);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: block;
+  --safe-pad: 1.75rem;
+  padding: var(--safe-pad);
+  transition: background-image .25s ease;
+  filter: saturate(0.98);
+}
+
+/* topbar */
+.topbar {
+  position: absolute;
+  left: var(--safe-pad);
+  right: var(--safe-pad);
+  top: 0.75rem;
+  display:flex;
+  gap: 0.75rem;
+  align-items:center;
+  z-index: 30;
+}
+.btn { background: rgba(0,0,0,0.45); padding: 0.5rem 0.75rem; border-radius: 0.5rem; border:none; color: var(--text-color); cursor:pointer; }
+.btn.small { padding: 0.375rem 0.5rem; font-size: 0.9rem; }
+.btn.ghost { background: transparent; border: 1px solid rgba(190, 46, 46, 0.12); }
+
+
+/* Specific styling for tiny ghost buttons, used for deletion. */
+.btn.ghost.tiny {
+  background-color: rgba(0, 0, 0, 0);
+  color: #ffffff;
+  border-color: rgb(255, 255, 255);
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn.ghost.tiny .delete-icon {
+  margin: 0;
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.btn.ghost.tiny:hover {
+  background-color: rgb(252, 1, 1);
+  border-color: rgb(252, 1, 1);
+}
+
+
+.btn.ghost.tiny:hover .delete-icon {
+  transform: scale(1.4);
+}
+
+/* panels layout */
+.panel {
+  position:absolute;
+  backdrop-filter: blur(0.125rem); /* Higher value = more blur */
+  background: rgba(0, 0, 0, 0.482);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--panel-shadow);
+  border: var(--panel-border-width) solid var(--panel-border-color);
+  color: var(--text-color);
+}
+
+/* top priority */
+.left { 
+  width: 22vw; 
+  min-width: 16rem; 
+  max-height: 70vh; 
+  overflow:auto; 
+  cursor: grab; 
+}
+
+/* to-do */
+.right { 
+  width: 25vw; 
+  min-width: 18rem; 
+  max-height: 70vh; 
+  overflow:auto; 
+  cursor: grab; 
+}
+
+/* quote */
+.center {
+  width: 37vw;
+  min-width: 22.5rem; /* 360px */
+  max-width: 40rem; /* 640px */
+  text-align: center;
+  cursor: grab;
+  padding: 0; /* You can adjust this value for the quote panel specifically */
+}
+
+.center.dragging,
+.left.dragging,
+.right.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* heading 'Top priorities', 'to-do list' */
+h3 { 
+  margin: 0.4rem 0rem 1rem 0.4rem; 
+  font-size: 1.5rem; 
+  font-weight: 600; 
+}
+
+/* .panel-heading h3 { margin-bottom: 0.7rem; } */
+ul { list-style:none; padding:0; margin:0; }
+li { margin-bottom: 0.625rem; }
+
+/* quote */
+.center blockquote {
+  margin: 0.700rem;
+  font-size: 1.2rem;
+  font-style: italic; /* Changed from italic to normal */
+  text-align: center;
+  padding: 0.300rem;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-family: 'Georgia', Poppins; /* Added a serif font for a different feel */
+}
+
+.center blockquote.editing {
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.749);
+  outline: none;
+  cursor: text;
+  text-align: center;
+}
+
+/* todo */
+.todo-add { display:flex; gap: 0.5rem; margin-bottom: 0.625rem; }
+.todo-add input { flex:1; padding: 0.5rem; border-radius: 0.5rem; border:none; background: rgba(255,255,255,0.06); color: var(--text-color); }
+
+/* Modern Checkbox Styles */
+.right .list-item .checkbox-wrapper {
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.right .list-item .checkbox-wrapper input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.right .list-item .checkbox-wrapper .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.25rem;
+  width: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly visible background */
+  border-radius: 0.3125rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.5); /* A lighter border for better visibility */
+}
+
+.right .list-item .checkbox-wrapper input:checked ~ .checkmark {
+  background-color: #3b82f6; /* A nice blue for the checked state */
+  border-color: #3b82f6;
+}
+
+.right .list-item .checkbox-wrapper .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.right .list-item .checkbox-wrapper input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.right .list-item .checkbox-wrapper .checkmark:after {
+  left: 0.4375rem;
+  top: 0.1875rem;
+  width: 0.3125rem;
+  height: 0.625rem;
+  border: solid white;
+  border-width: 0 0.1875rem 0.1875rem 0;
+  transform: rotate(45deg);
+}
+
+/* Panel heading container */
+.panel-heading,
+.heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Priorities List */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.bullet {
+    width: 0.625rem;
+    height: 0.625rem;
+    background-color: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* text in priority panel */
+.priority-text {
+    flex: 1;
+    padding: 0.5rem 0.9rem;
+    border-radius: 1.25rem;
+    border: 0.140rem solid var(--accent);
+    background-color: rgba(0, 0, 0, 0.434);
+    color: var(--text-color);
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+}
+
+.priority-text.editing {
+    cursor: text;
+    background-color: rgba(0, 0, 0, 0.886); /* Darken background to indicate editing */
+    border: #fe8300 0.140rem solid; /* Change border color to indicate editing */
+}
+
+.priority-text.editing:empty::before {
+  content: 'Add priority...';
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.priority-text.done {
+  text-decoration: line-through;
+  opacity: 0.6;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.right .priority-text {
+  cursor: default;
+}
+
+/* Wallpaper Edit Button */
+.edit-wallpaper-btn {
+  position: fixed;
+  bottom: var(--safe-pad);
+  right: var(--safe-pad);
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(239, 237, 237, 0); /* Frosted glass effect */
+  border-radius: 50%;
+  border: 0.1875rem solid rgba(255, 255, 255, 0.698);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.859);
+  z-index: 100;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* wallpaper edit button hover */
+.edit-wallpaper-btn:hover {
+  transform: scale(1.1);
+  border-color: #ffffff;
+}
+
+/* edit icon */
+.edit-wallpaper-btn svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  stroke: #e6e5e5c2;
+  transition: stroke 0.2s ease;
+}
+
+/* edit icon hover */
+.edit-wallpaper-btn:hover svg {
+  stroke: #ffffff;
+}
+
+/* Wallpaper Menu */
+.wallpaper-menu {
+  position: fixed;
+  bottom: calc(var(--safe-pad) + 3.75rem); /* Position above the button */
+  right: var(--safe-pad);
+  background-color: rgba(0, 0, 0, 0.306);
+  backdrop-filter: blur(4px);
+  border-radius: 0.75rem;
+  border: 0px solid rgba(255, 255, 255, 0.753); /* Example border */
+  padding: 0.9375rem;
+  box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.2);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 12.5rem;
+}
+
+.wallpaper-menu.hidden {
+  display: none;
+}
+
+.wallpaper-menu button {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.wallpaper-menu #surprise-me-btn,
+.wallpaper-menu #from-computer-btn {
+  padding: 0.25rem 0;
+  width: 100%;
+  background: transparent;
+  border: 2px solid #a78bfa; /* A warm, soft purple */
+  color: #ffffffdb;
+}
+
+.wallpaper-menu #surprise-me-btn:hover,
+.wallpaper-menu #from-computer-btn:hover {
+  background: #a78bfa; /* Fill with purple on hover */
+  border-color: #a78bfa;
+  color: #ffffff;
+}
+
+.wallpaper-menu .paste-link-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wallpaper-menu input[type="text"] {
+  flex: 1;
+  padding: 0.25rem 0; /* Increased padding: 10px top/bottom, 15px left/right */
+  margin: 0px; /* Example: Adds 5px of margin on all sides */
+  border-radius: 0.5rem;
+  border: 2px solid #a78bfa; /* Match the purple theme */
+  background: rgba(0,0,0,0.05);
+  width: 300%;
+  color: #ffffff;
+  outline-color: var(--accent);
+}
+
+.wallpaper-menu input[type="text"]::placeholder {
+  color: #c7c7c7; /* Lighter color for placeholder text */
+  opacity: 10; /* Ensures placeholder is not faded in some browsers */
+}
+
+
+/* set button */
+.wallpaper-menu .paste-link-container button {
+  padding: 0px 0px;
+  flex-shrink: 0;
+  width: 20%;
+  background: var(--accent); /* Use existing accent color for primary action */
+  border: 2px solid var(--accent);
+}
+
+.wallpaper-menu .paste-link-container button:hover {
+  background: #f97316; /* A slightly darker orange on hover */
+  border-color: #f97316;
+}
